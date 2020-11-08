@@ -10,6 +10,15 @@ jobs:
         - ruby: 2.7
           gemfile: Gemfile
           elasticsearch_version: 7.9.3
+        # - ruby: 2.6
+        #   gemfile: test/gemfiles/activerecord52.gemfile
+        #   elasticsearch_version: 7.0.0
+        # - ruby: 2.5
+        #   gemfile: test/gemfiles/activerecord51.gemfile
+        #   elasticsearch_version: 6.8.13
+        # - ruby: 2.4
+        #   gemfile: test/gemfiles/activerecord50.gemfile
+        #   elasticsearch_version: 6.0.0
     runs-on: ubuntu-latest
     services:
       elasticsearch:
