@@ -36,4 +36,5 @@ jobs:
         elasticsearch-plugin install analysis-smartcn
         elasticsearch-plugin install analysis-stempel
         elasticsearch-plugin install analysis-ukrainian
+    - run: sudo systemctl start redis
     - run: bundle exec rake test
