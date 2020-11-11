@@ -9,7 +9,7 @@ jobs:
         include:
         - ruby: 2.7
           gemfile: Gemfile
-          elasticsearch_version: 7.9.3
+          elasticsearch-version: 7.9.3
         # - ruby: 2.6
         #   gemfile: test/gemfiles/activerecord52.gemfile
         #   elasticsearch_version: 7.0.0
@@ -20,17 +20,6 @@ jobs:
         #   gemfile: test/gemfiles/activerecord50.gemfile
         #   elasticsearch_version: 6.0.0
     runs-on: ubuntu-latest
-    services:
-      elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:${{ matrix.elasticsearch_version }}
-        env:
-          discovery.type: single-node
-        ports: ['9200:9200']
-        options: --health-cmd "curl localhost:9200/_cluster/health" --health-interval 10s --health-timeout 10s --health-retries 10
-      redis:
-        image: redis
-        ports: ['6379:6379']
-        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
@@ -39,4 +28,7 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+    - uses: ankane/setup-elasticsearch@v1
+      with:
+        elasticsearch-version: ${{ matrix.elasticsearch-version }}
     - run: bundle exec rake test
