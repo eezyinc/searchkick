@@ -32,9 +32,12 @@ jobs:
       with:
         elasticsearch-version: ${{ matrix.elasticsearch-version }}
     - run: |
+        echo $ES_HOME
         sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-kuromoji
         sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-smartcn
         sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-stempel
         sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-ukrainian
-    - run: sudo systemctl start redis
+    - run: |
+        sudo apt-get install redis-server
+        sudo systemctl start redis
     - run: bundle exec rake test
