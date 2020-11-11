@@ -31,4 +31,9 @@ jobs:
     - uses: ankane/setup-elasticsearch@v1
       with:
         elasticsearch-version: ${{ matrix.elasticsearch-version }}
+    - run: |
+        elasticsearch-plugin install analysis-kuromoji
+        elasticsearch-plugin install analysis-smartcn
+        elasticsearch-plugin install analysis-stempel
+        elasticsearch-plugin install analysis-ukrainian
     - run: bundle exec rake test
