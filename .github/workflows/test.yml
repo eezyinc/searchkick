@@ -11,19 +11,19 @@ jobs:
           gemfile: Gemfile
           elasticsearch: 7.10.0
         - ruby: 2.6
-          gemfile: test/gemfiles/activerecord52.gemfile
+          gemfile: gemfiles/activerecord52.gemfile
           elasticsearch: 7.0.0
         - ruby: 2.5
-          gemfile: test/gemfiles/activerecord51.gemfile
+          gemfile: gemfiles/activerecord51.gemfile
           elasticsearch: 6.8.13
         - ruby: 2.4
-          gemfile: test/gemfiles/activerecord50.gemfile
+          gemfile: gemfiles/activerecord50.gemfile
           elasticsearch: 6.0.0
         - ruby: 2.7
-          gemfile: test/gemfiles/mongoid7.gemfile
+          gemfile: gemfiles/mongoid7.gemfile
           mongodb: true
         - ruby: 2.6
-          gemfile: test/gemfiles/mongoid6.gemfile
+          gemfile: gemfiles/mongoid6.gemfile
           mongodb: true
     runs-on: ubuntu-latest
     env:
@@ -33,8 +33,8 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        # bundler-cache: true
-    - run: bundle install
+        bundler-cache: true
+    - run: bundle update
     - uses: ankane/setup-elasticsearch@windows2
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
