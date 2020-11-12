@@ -35,6 +35,11 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
     - run: bundle update
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/elasticsearch
+        key: ${{ runner.os }}-${{ matrix.elasticsearch }}
     - uses: ankane/setup-elasticsearch@v1
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
