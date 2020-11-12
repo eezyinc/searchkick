@@ -35,7 +35,7 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         # bundler-cache: true
     - run: bundle install
-    - uses: ankane/setup-elasticsearch@caching
+    - uses: ankane/setup-elasticsearch@windows2
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
         plugins: analysis-kuromoji,analysis-smartcn,analysis-stempel,analysis-ukrainian
