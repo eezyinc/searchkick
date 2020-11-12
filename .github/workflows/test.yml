@@ -6,10 +6,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        elasticsearch: [7.10.0]
         include:
         - ruby: 2.7
           gemfile: Gemfile
+          elasticsearch: 7.10.0
         - ruby: 2.6
           gemfile: gemfiles/activerecord52.gemfile
           elasticsearch: 7.0.0
@@ -21,9 +21,11 @@ jobs:
           elasticsearch: 6.0.0
         - ruby: 2.7
           gemfile: gemfiles/mongoid7.gemfile
+          elasticsearch: 7
           mongodb: true
         - ruby: 2.6
           gemfile: gemfiles/mongoid6.gemfile
+          elasticsearch: 6
           mongodb: true
     runs-on: ubuntu-latest
     env:
