@@ -1,7 +1,7 @@
-name: Test
+name: build
 on: [push, pull_request]
 jobs:
-  test:
+  build:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     strategy:
       fail-fast: false
@@ -9,16 +9,22 @@ jobs:
         include:
         - ruby: 2.7
           gemfile: Gemfile
-          elasticsearch-version: 7.9.3
-        # - ruby: 2.6
-        #   gemfile: test/gemfiles/activerecord52.gemfile
-        #   elasticsearch_version: 7.0.0
-        # - ruby: 2.5
-        #   gemfile: test/gemfiles/activerecord51.gemfile
-        #   elasticsearch_version: 6.8.13
-        # - ruby: 2.4
-        #   gemfile: test/gemfiles/activerecord50.gemfile
-        #   elasticsearch_version: 6.0.0
+          elasticsearch: 7.10.0
+        - ruby: 2.6
+          gemfile: test/gemfiles/activerecord52.gemfile
+          elasticsearch: 7.0.0
+        - ruby: 2.5
+          gemfile: test/gemfiles/activerecord51.gemfile
+          elasticsearch: 6.8.13
+        - ruby: 2.4
+          gemfile: test/gemfiles/activerecord50.gemfile
+          elasticsearch: 6.0.0
+        - ruby: 2.7
+          gemfile: test/gemfiles/mongoid7.gemfile
+          mongodb: true
+        - ruby: 2.6
+          gemfile: test/gemfiles/mongoid6.gemfile
+          mongodb: true
     runs-on: ubuntu-latest
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
@@ -27,15 +33,19 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
+        # bundler-cache: true
     - uses: ankane/setup-elasticsearch@v1
       with:
-        elasticsearch-version: ${{ matrix.elasticsearch-version }}
+        elasticsearch-version: ${{ matrix.elasticsearch }}
+    - uses: ankane/setup-mongodb@v1
+      if: ${{ matrix.mongodb }}
     - run: |
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-kuromoji
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-smartcn
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-stempel
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-ukrainian
+    - run: sudo $ES_HOME/bin/elasticsearch-plugin install analysis-nori
+      if: ${{ startsWith(matrix.elasticsearch, '6.') }}
     - run: |
         sudo apt-get install redis-server
         sudo systemctl start redis
