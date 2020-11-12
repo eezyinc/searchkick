@@ -40,13 +40,14 @@ jobs:
         elasticsearch-version: ${{ matrix.elasticsearch }}
     - uses: ankane/setup-mongodb@v1
       if: ${{ matrix.mongodb }}
+    - run: sudo $ES_HOME/bin/elasticsearch-plugin install analysis-nori
+      if: ${{ startsWith(matrix.elasticsearch, '6.0.') }}
     - run: |
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-kuromoji
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-smartcn
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-stempel
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-ukrainian
-    - run: sudo $ES_HOME/bin/elasticsearch-plugin install analysis-nori
-      if: ${{ startsWith(matrix.elasticsearch, '6.') }}
+        sudo systemctl restart elasticsearch
     - run: |
         sudo apt-get install redis-server
         sudo systemctl start redis
