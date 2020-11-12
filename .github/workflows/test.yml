@@ -35,10 +35,14 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
     - run: bundle update
-    - uses: ankane/setup-elasticsearch@windows2
+    - uses: ankane/setup-elasticsearch@v1
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
-        plugins: analysis-kuromoji,analysis-smartcn,analysis-stempel,analysis-ukrainian
+        plugins: |
+          analysis-kuromoji
+          analysis-smartcn
+          analysis-stempel
+          analysis-ukrainian
     - uses: ankane/setup-mongodb@v1
       if: ${{ matrix.mongodb }}
     - run: |
