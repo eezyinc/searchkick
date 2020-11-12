@@ -41,7 +41,7 @@ jobs:
     - uses: ankane/setup-mongodb@v1
       if: ${{ matrix.mongodb }}
     - run: sudo $ES_HOME/bin/elasticsearch-plugin install analysis-nori
-      if: ${{ startsWith(matrix.elasticsearch, '6.0.') }}
+      if: ${{ !startsWith(matrix.elasticsearch, '6.0.') }}
     - run: |
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-kuromoji
         sudo $ES_HOME/bin/elasticsearch-plugin install analysis-smartcn
