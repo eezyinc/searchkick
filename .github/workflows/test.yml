@@ -6,10 +6,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        elasticsearch: [7.10.0]
         include:
         - ruby: 2.7
           gemfile: Gemfile
-          elasticsearch: 7.10.0
         - ruby: 2.6
           gemfile: gemfiles/activerecord52.gemfile
           elasticsearch: 7.0.0
@@ -39,7 +39,7 @@ jobs:
       with:
         path: |
           ~/elasticsearch
-        key: ${{ runner.os }}-${{ matrix.elasticsearch }}
+        key: elasticsearch-${{ matrix.elasticsearch }}-${{ runner.os }}
     - uses: ankane/setup-elasticsearch@v1
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
