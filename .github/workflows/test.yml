@@ -41,7 +41,7 @@ jobs:
       with:
         path: |
           ~/elasticsearch
-        key: elasticsearch-${{ matrix.elasticsearch }}-${{ runner.os }}
+        key: ${{ runner.os }}-elasticsearch-${{ matrix.elasticsearch }}
     - uses: ankane/setup-elasticsearch@v1
       with:
         elasticsearch-version: ${{ matrix.elasticsearch }}
